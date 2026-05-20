@@ -1,6 +1,7 @@
 class_name World extends Node
 
-var sample_rate: float = 0.1
+var sample_distance: float = 0.1 ## For this distance, the max gradient is 0.0025
+var gradient_multiplier: float = 400 ## Derived from 1/gradient_max, depends upon sample_distance
 var width = 800
 var height = 800
 
@@ -24,27 +25,21 @@ func _init(s: int = Time.get_ticks_usec()):
 
 func _ready() -> void:
 	var img: Image = Image.create_empty(width, height, false, Image.FORMAT_RGB8)
+	var gradients: Dictionary[Vector2i, float] = {}
 	for x in range(width):
 		for y in range(height):
-			img.set_pixel(x,y,classify_elevation(fnl.get_noise_2d(x,y)))
+			var h = fnl.get_noise_2d(x, y)
+			img.set_pixel(x,y,Color.WHITE * 400 * sobel_sample_gradient(Vector2i(x, y), h))
+	
 	var texture = ImageTexture.create_from_image(img)
 	$Sprite2D.texture = texture
 	
-	print(discover(Vector2i(0,0)).elevation)
-	print(discover(Vector2i(0,0)).gradient)
+
 	
 
 
 	
-func classify_elevation(e):
-	if e < 0.45:
-		return Palette.ocean
-	elif e < 0.5:
-		return Palette.sand
-	elif e < 0.6:
-		return Palette.grass
-	else:
-		return Palette.mountain
+
 
 func discover(pos: Vector2i):
 	if tiles.has(pos):
@@ -70,7 +65,7 @@ func sobel_sample_gradient(pos: Vector2i, h):
 	var heights: Array[float] = []
 	for x: float in [-1,0,1]:
 		for y: float in [-1,0,1]:
-			heights.append(fnl.get_noise_2d(pos.x+(x*sample_rate), pos.y+(y*sample_rate)))
+			heights.append(fnl.get_noise_2d(pos.x+(x*sample_distance), pos.y+(y*sample_distance)))
 	var zx_slope = ((heights[2]+2*heights[5]+heights[8])-(heights[0]+2*heights[5]+heights[6]))/8*h
 	var zy_slope = ((heights[6]+2*heights[7]+heights[8])-(heights[0]+2*heights[1]+heights[2]))/8*h
 	return sqrt(pow(zx_slope,2) + pow(zy_slope,2))
