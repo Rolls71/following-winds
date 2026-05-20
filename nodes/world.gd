@@ -1,6 +1,8 @@
 class_name World extends Node
 
 var sample_rate: float = 0.1
+var width = 800
+var height = 800
 
 var rng: RandomNumberGenerator
 var tiles: Dictionary[Vector2i, Tile]
@@ -21,7 +23,10 @@ func _init(s: int = Time.get_ticks_usec()):
 
 
 func _ready() -> void:
-	var img: Image = fnl.get_image(800,800)
+	var img: Image = Image.create_empty(width, height, false, Image.FORMAT_RGB8)
+	for x in range(width):
+		for y in range(height):
+			img.set_pixel(x,y,classify_elevation(fnl.get_noise_2d(x,y)))
 	var texture = ImageTexture.create_from_image(img)
 	$Sprite2D.texture = texture
 	
@@ -29,28 +34,40 @@ func _ready() -> void:
 	print(discover(Vector2i(0,0)).gradient)
 	
 
+
+	
+func classify_elevation(e):
+	if e < 0.45:
+		return Palette.ocean
+	elif e < 0.5:
+		return Palette.sand
+	elif e < 0.6:
+		return Palette.grass
+	else:
+		return Palette.mountain
+
 func discover(pos: Vector2i):
 	if tiles.has(pos):
 		push_warning("Tile at "+str(pos)+" already discovered.")
 		return tiles[pos]
-	var elevation = fnl.get_noise_2dv(pos)
-	var gradient = sobel_sample_gradient(pos)
+	var elevation = (fnl.get_noise_2dv(pos)+1)/2.0
+	var gradient = sobel_sample_gradient(pos, elevation)
 	var tile: Tile = Tile.new(pos.x, pos.y, elevation, gradient)
 	tiles[pos] = tile
 	return tile
 	
 	
 
-## Returns a float value indicating slope
-## 0 → perfectly flat
-## 1 → 45° incline
+## Calculates the gradient of a point based on the 8 surrounding points.
+## Returns a float value:
+## 0 → perfectly flat,
+## 1 → 45° incline,
 ## >1 → steeper than 45°
-func sobel_sample_gradient(pos: Vector2i):
+func sobel_sample_gradient(pos: Vector2i, h):
 	#z1 z2 z3
 	#z4 z5 z6
 	#z7 z8 z9
 	var heights: Array[float] = []
-	var h = fnl.get_noise_2dv(pos)
 	for x: float in [-1,0,1]:
 		for y: float in [-1,0,1]:
 			heights.append(fnl.get_noise_2d(pos.x+(x*sample_rate), pos.y+(y*sample_rate)))
