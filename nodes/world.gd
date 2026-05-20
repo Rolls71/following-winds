@@ -1,7 +1,7 @@
 class_name World extends Node
 
-var sample_distance: float = 0.1 ## For this distance, the max gradient is 0.0025
-var gradient_multiplier: float = 400 ## Derived from 1/gradient_max, depends upon sample_distance
+var sample_distance: float = 2
+var gradient_multiplier: float = 40/sample_distance ## Derived from 1/gradient_max
 var width = 300
 var height = 300
 
@@ -69,7 +69,6 @@ func _ready() -> void:
 
 	texture = ImageTexture.create_from_image(img)
 	$ColourMap.texture = texture
-	
 
 	
 
@@ -94,11 +93,12 @@ func discover(pos: Vector2i):
 ## 0 → perfectly flat,
 ## 1 → 45° incline,
 ## >1 → steeper than 45°
-func sobel_sample_gradient(pos: Vector2i, h):
+func sobel_sample_gradient(pos: Vector2i, height):
 	#z1 z2 z3
 	#z4 z5 z6
 	#z7 z8 z9
 	var heights: Array[float] = []
+	var h = max(height, 0.000000000001)
 	for x: float in [-1,0,1]:
 		for y: float in [-1,0,1]:
 			heights.append(fnl.get_noise_2d(pos.x+(x*sample_distance), pos.y+(y*sample_distance)))
