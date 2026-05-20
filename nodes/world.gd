@@ -2,8 +2,8 @@ class_name World extends Node
 
 var sample_distance: float = 0.1 ## For this distance, the max gradient is 0.0025
 var gradient_multiplier: float = 400 ## Derived from 1/gradient_max, depends upon sample_distance
-var width = 800
-var height = 800
+var width = 300
+var height = 300
 
 var rng: RandomNumberGenerator
 var tiles: Dictionary[Vector2i, Tile]
@@ -25,14 +25,50 @@ func _init(s: int = Time.get_ticks_usec()):
 
 func _ready() -> void:
 	var img: Image = Image.create_empty(width, height, false, Image.FORMAT_RGB8)
-	var gradients: Dictionary[Vector2i, float] = {}
 	for x in range(width):
 		for y in range(height):
-			var h = fnl.get_noise_2d(x, y)
-			img.set_pixel(x,y,Color.WHITE * 400 * sobel_sample_gradient(Vector2i(x, y), h))
-	
+			var h = (fnl.get_noise_2d(x, y)+1)/2.0
+			img.set_pixel(x, y, Color.WHITE * sobel_sample_gradient(Vector2i(x, y), h))
+			
 	var texture = ImageTexture.create_from_image(img)
-	$Sprite2D.texture = texture
+	$GradientMap.texture = texture
+	
+	for x in range(width):
+		for y in range(height):
+			var h = (fnl.get_noise_2d(x, y)+1)/2.0
+			img.set_pixel(x, y, Color.WHITE * h)
+	
+	texture = ImageTexture.create_from_image(img)
+	$HeightMap.texture = texture
+
+	for x in range(width):
+		for y in range(height):
+			var h = (fnl.get_noise_2d(x, y)+1)/2.0
+			img.set_pixel(x, y, 
+				Color.WHITE * Palette.elevations_to_colour[Tile.classify_elevation(h)])
+	
+	texture = ImageTexture.create_from_image(img)
+	$ColourHeightMap.texture = texture
+	
+	for x in range(width):
+		for y in range(height):
+			var h = (fnl.get_noise_2d(x, y)+1)/2.0
+			var g = sobel_sample_gradient(Vector2i(x, y), h)
+			img.set_pixel(x, y, 
+				Color.WHITE * Palette.gradients_to_colour[Tile.classify_gradient(g)])
+	
+	texture = ImageTexture.create_from_image(img)
+	$ColourGradientMap.texture = texture
+	
+	for x in range(width):
+		for y in range(height):
+			var h = (fnl.get_noise_2d(x, y)+1)/2.0
+			var g = sobel_sample_gradient(Vector2i(x, y), h)
+			img.set_pixel(x, y, 
+				Color.WHITE * Palette.elevations_to_colour[Tile.classify_elevation(h)] * Palette.gradients_to_colour[Tile.classify_gradient(g)])
+
+	texture = ImageTexture.create_from_image(img)
+	$ColourMap.texture = texture
 	
 
 	
@@ -68,4 +104,4 @@ func sobel_sample_gradient(pos: Vector2i, h):
 			heights.append(fnl.get_noise_2d(pos.x+(x*sample_distance), pos.y+(y*sample_distance)))
 	var zx_slope = ((heights[2]+2*heights[5]+heights[8])-(heights[0]+2*heights[5]+heights[6]))/8*h
 	var zy_slope = ((heights[6]+2*heights[7]+heights[8])-(heights[0]+2*heights[1]+heights[2]))/8*h
-	return sqrt(pow(zx_slope,2) + pow(zy_slope,2))
+	return gradient_multiplier * sqrt(pow(zx_slope,2) + pow(zy_slope,2))

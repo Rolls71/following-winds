@@ -6,6 +6,22 @@
 [node name="Node2D" type="Node2D" unique_id=27625935]
 script = ExtResource("1_37kl0")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=240012507]
-position = Vector2(400, 400)
+[node name="GradientMap" type="Sprite2D" parent="." unique_id=240012507]
+position = Vector2(450, 150)
+texture = ExtResource("2_8uh7m")
+
+[node name="HeightMap" type="Sprite2D" parent="." unique_id=1936590662]
+position = Vector2(150, 150)
+texture = ExtResource("2_8uh7m")
+
+[node name="ColourMap" type="Sprite2D" parent="." unique_id=277529477]
+position = Vector2(750, 450)
+texture = ExtResource("2_8uh7m")
+
+[node name="ColourGradientMap" type="Sprite2D" parent="." unique_id=347924727]
+position = Vector2(450, 450)
+texture = ExtResource("2_8uh7m")
+
+[node name="ColourHeightMap" type="Sprite2D" parent="." unique_id=406793216]
+position = Vector2(150, 450)
 texture = ExtResource("2_8uh7m")
