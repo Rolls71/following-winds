@@ -3,29 +3,78 @@
 [ext_resource type="Script" uid="uid://dgh5bl2p8dpbh" path="res://nodes/world.gd" id="1_37kl0"]
 [ext_resource type="Texture2D" uid="uid://eetiufkn4884" path="res://icon.svg" id="2_8uh7m"]
 
-[node name="Node2D" type="Node2D" unique_id=27625935]
+[node name="Node2D" type="GridContainer" unique_id=1608080394]
+layout_direction = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 3
 script = ExtResource("1_37kl0")
 
-[node name="GradientMap" type="Sprite2D" parent="." unique_id=240012507]
-position = Vector2(450, 150)
+[node name="Container" type="CenterContainer" parent="." unique_id=307339948]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Centre" type="Control" parent="Container" unique_id=2079122499]
+layout_mode = 2
+
+[node name="PlateMap" type="Sprite2D" parent="Container/Centre" unique_id=277529477]
 texture = ExtResource("2_8uh7m")
 
-[node name="HeightMap" type="Sprite2D" parent="." unique_id=1936590662]
-position = Vector2(150, 150)
+[node name="Container2" type="CenterContainer" parent="." unique_id=1980190269]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Centre" type="Control" parent="Container2" unique_id=866145467]
+layout_mode = 2
+
+[node name="TerrainMap" type="Sprite2D" parent="Container2/Centre" unique_id=1936590662]
 texture = ExtResource("2_8uh7m")
 
-[node name="ColourMap" type="Sprite2D" parent="." unique_id=277529477]
-position = Vector2(750, 450)
+[node name="Container3" type="CenterContainer" parent="." unique_id=1226013643]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Centre" type="Control" parent="Container3" unique_id=876743373]
+layout_mode = 2
+
+[node name="GradientMap" type="Sprite2D" parent="Container3/Centre" unique_id=240012507]
 texture = ExtResource("2_8uh7m")
 
-[node name="ColourGradientMap" type="Sprite2D" parent="." unique_id=347924727]
-position = Vector2(450, 450)
+[node name="Container4" type="CenterContainer" parent="." unique_id=1988407471]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Centre" type="Control" parent="Container4" unique_id=976220517]
+layout_mode = 2
+
+[node name="TerrainPlateMap" type="Sprite2D" parent="Container4/Centre" unique_id=347924727]
 texture = ExtResource("2_8uh7m")
 
-[node name="ColourHeightMap" type="Sprite2D" parent="." unique_id=406793216]
-position = Vector2(150, 450)
+[node name="Container5" type="CenterContainer" parent="." unique_id=488242533]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Centre" type="Control" parent="Container5" unique_id=1739767423]
+layout_mode = 2
+
+[node name="ColourMap" type="Sprite2D" parent="Container5/Centre" unique_id=406793216]
 texture = ExtResource("2_8uh7m")
 
-[node name="ClimateMap" type="Sprite2D" parent="." unique_id=792311064]
-position = Vector2(750, 150)
+[node name="Container6" type="CenterContainer" parent="." unique_id=968044131]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Centre" type="Control" parent="Container6" unique_id=286084162]
+layout_mode = 2
+
+[node name="ClimateMap" type="Sprite2D" parent="Container6/Centre" unique_id=792311064]
 texture = ExtResource("2_8uh7m")

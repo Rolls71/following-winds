@@ -3,10 +3,10 @@ class_name Tile extends Resource
 enum Elevations {OCEANWATER, COASTALWATER, COASTLAND, LOWLAND, HIGHLAND}
 enum Gradients {FLAT, GENTLE, STEEP}
 
-const OCEAN_COAST_LEVEL: float = 0.4
-const SEA_LEVEL: float = 0.625
-const COAST_LOW_LEVEL: float = 0.65
-const LOW_HIGH_LEVEL: float = 0.75
+const OCEAN_COAST_LEVEL: float = 0.6
+const SEA_LEVEL: float = 0.67
+const COAST_LOW_LEVEL: float = 0.685
+const LOW_HIGH_LEVEL: float = 0.76
 
 
 static func classify_elevation(e):
