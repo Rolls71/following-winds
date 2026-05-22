@@ -39,7 +39,7 @@ var temperature: float ## Percentage based on elevation, and climate zone
 #var precipitation: float ## Percentage of days with rainfall, ranging from 0-200/365
 
 
-func _init(x: int, y: int, e: float, g: float, bounds: Vector2i):
+func _init(x: int, y: int, e: float, g: float, _bounds: Vector2i):
 	position = Vector2i(x, y)
 	latitude = y
 	longitude = x

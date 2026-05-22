@@ -44,6 +44,7 @@ func _ready() -> void:
 	for x in range(-(width/2.0),width-(width/2.0)):
 		for y in range(-(height/2.0),height-(height/2.0)):
 			var e = (fnl_plates.get_noise_2d(x, y)+1)/2.0
+			@warning_ignore("integer_division")
 			img.set_pixel(x+width/2, y+height/2, Color.WHITE * e)
 	texture = ImageTexture.create_from_image(img)
 	$Container/Centre/PlateMap.texture = texture
@@ -51,6 +52,7 @@ func _ready() -> void:
 	for x in range(-(width/2.0),width-(width/2.0)):
 		for y in range(-(height/2.0),height-(height/2.0)):
 			var e = (fnl_terrain.get_noise_2d(x, y)+1)/2.0
+			@warning_ignore("integer_division")
 			img.set_pixel(x+width/2, y+height/2, Color.WHITE * e)
 	texture = ImageTexture.create_from_image(img)
 	$Container2/Centre/TerrainMap.texture = texture
@@ -58,6 +60,7 @@ func _ready() -> void:
 	for x in range(-(width/2.0),width-(width/2.0)):
 		for y in range(-(height/2.0),height-(height/2.0)):
 			var e = get_elevation(x, y)
+			@warning_ignore("integer_division")
 			img.set_pixel(x+width/2, y+height/2, Color.WHITE * sobel_sample_gradient(Vector2i(x, y), e))
 	texture = ImageTexture.create_from_image(img)
 	$Container3/Centre/GradientMap.texture = texture
@@ -65,6 +68,7 @@ func _ready() -> void:
 	for x in range(-(width/2.0),width-(width/2.0)):
 		for y in range(-(height/2.0),height-(height/2.0)):
 			var e = get_elevation(x, y)
+			@warning_ignore("integer_division")
 			img.set_pixel(x+width/2, y+height/2, Color.WHITE * e)
 	texture = ImageTexture.create_from_image(img)
 	$Container4/Centre/TerrainPlateMap.texture = texture
@@ -72,6 +76,7 @@ func _ready() -> void:
 	for x in range(-(width/2.0),width-(width/2.0)):
 		for y in range(-(height/2.0),height-(height/2.0)):
 			var e = get_elevation(x, y)
+			@warning_ignore("integer_division")
 			img.set_pixel(x+width/2, y+height/2, 
 				Color.WHITE * Palette.elevations_to_colour[Tile.classify_elevation(e)])
 
@@ -91,6 +96,7 @@ func _ready() -> void:
 			gradient.add_point(0.7, Color.from_rgba8(38, 250, 8))
 			gradient.add_point(0.6, Color.from_rgba8(8, 247, 233))
 			gradient.add_point(0.1, Color.from_rgba8(3, 43, 175))
+			@warning_ignore("integer_division")
 			img.set_pixel(x+width/2, y+height/2, gradient.sample(t))
 
 	texture = ImageTexture.create_from_image(img)
@@ -134,9 +140,9 @@ func sobel_sample_gradient(pos: Vector2i, elevation):
 	if elevation <= 0:
 		push_error("Elevation is 0 or below")
 	var e = max(elevation, 0.00000000000001)
-	for x: float in [-1,0,1]:
-		for y: float in [-1,0,1]:
-			elevations.append(get_elevation(x, y))
+	for x: int in [-1,0,1]:
+		for y: int in [-1,0,1]:
+			elevations.append(get_elevation(pos.x+x, pos.y+y))
 	var zx_slope = ((elevations[2]+2*elevations[5]+elevations[8])-(elevations[0]+2*elevations[5]+elevations[6]))/8*e
 	var zy_slope = ((elevations[6]+2*elevations[7]+elevations[8])-(elevations[0]+2*elevations[1]+elevations[2]))/8*e
 	return sqrt(pow(zx_slope,2) + pow(zy_slope,2))
