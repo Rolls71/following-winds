@@ -86,10 +86,7 @@ func _ready() -> void:
 	
 	for x in range(-(width/2.0),width-(width/2.0)):
 		for y in range(-(height/2.0),height-(height/2.0)):
-			var e = get_elevation(x, y)
-			var h = 2*sqrt(1/Tile.LOW_HIGH_LEVEL)*max(e - Tile.LOW_HIGH_LEVEL,0)
-			var c = 1-(abs(y)/(height/2.0))
-			var t = max(0, (c*0.8)+0.2-h)
+			var t = get_temperature(x, y)
 			var gradient = Gradient.new()
 			gradient.set_color(1, Color.from_rgba8(237, 247, 1))
 			gradient.set_color(0, Color.from_rgba8(3, 43, 175))
@@ -111,17 +108,34 @@ func get_elevation(x: int, y: int):
 	var bal: float = 0.1*(t+p)
 	return (pow(terrain_height,bal*(1/t)) * pow(plate_height,bal*(1/p)))
 
+func get_climate(latitude: int):
+	return 1-(abs(latitude)/(height/2.0))
 
+func get_temperature(x: int, y:int):
+	var h = 2*sqrt(1/Tile.LOW_HIGH_LEVEL)*max(get_elevation(x, y) - Tile.LOW_HIGH_LEVEL,0)
+	var c = get_climate(y)
+	return max(0, (c*0.8)+0.2-h)
 	
+
 
 
 func discover(pos: Vector2i):
 	if tiles.has(pos):
 		push_warning("Tile at "+str(pos)+" already discovered.")
 		return tiles[pos]
-	var elevation = (fnl_terrain.get_noise_2dv(pos)+1)/2.0
+	var elevation = get_elevation(pos.x, pos.y)
+	var climate = get_climate(pos.y)
+	var temperature = get_temperature(pos.x, pos.y)
 	var gradient = sobel_sample_gradient(pos, elevation)
-	var tile: Tile = Tile.new(pos.x, pos.y, elevation, gradient, Vector2i(width, height))
+	var tile: Tile = Tile.new(
+		pos.x,
+		pos.y,
+		elevation,
+		gradient, 
+		Vector2i(width, height),
+		climate,
+		temperature,
+	)
 	tiles[pos] = tile
 	return tile
 	
