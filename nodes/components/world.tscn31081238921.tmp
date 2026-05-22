@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://3otqutvxcm3p"]
+
+[ext_resource type="Script" uid="uid://dgh5bl2p8dpbh" path="res://nodes/components/world.gd" id="1_vitk7"]
+[ext_resource type="PackedScene" uid="uid://csmlfb5icvw3c" path="res://nodes/components/terrain_map.tscn" id="2_vitk7"]
+[ext_resource type="Script" uid="uid://bvclvkjo7tm3a" path="res://nodes/components/panning_camera_2d.gd" id="3_2fmlf"]
+
+[node name="World" type="Node2D" unique_id=295796750]
+script = ExtResource("1_vitk7")
+
+[node name="TerrainMap" parent="." unique_id=109878774 instance=ExtResource("2_vitk7")]
+
+[node name="PanningCamera2D" type="Camera2D" parent="." unique_id=1633791296]
+script = ExtResource("3_2fmlf")

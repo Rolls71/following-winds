@@ -1,15 +1,18 @@
 class_name World extends Node
 
+@export var is_test_display = false
+
 var sample_distance: float = 2
 var gradient_multiplier: float = 40/sample_distance ## Derived from 1/gradient_max
 var width = 400
 var height = 400
+var scale:float = 1/1.0
 
 var rng: RandomNumberGenerator
 var tiles: Dictionary[Vector2i, Tile]
 var fnl_terrain: FastNoiseLite
 var fnl_plates: FastNoiseLite
-
+var terrain_map: TerrainMap
 
 func _init(s: int = Time.get_ticks_usec()):
 	rng = RandomNumberGenerator.new()
@@ -18,7 +21,7 @@ func _init(s: int = Time.get_ticks_usec()):
 	fnl_terrain = FastNoiseLite.new()
 	fnl_terrain.seed = s
 	fnl_terrain.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	fnl_terrain.frequency = 0.05
+	fnl_terrain.frequency = 0.05*scale
 	fnl_terrain.fractal_octaves = 4
 	fnl_terrain.fractal_lacunarity = 2
 	fnl_terrain.fractal_gain = 0.5
@@ -28,7 +31,7 @@ func _init(s: int = Time.get_ticks_usec()):
 	fnl_plates.seed = s
 	fnl_plates.noise_type = FastNoiseLite.TYPE_CELLULAR
 	fnl_plates.cellular_distance_function = FastNoiseLite.DISTANCE_EUCLIDEAN_SQUARED
-	fnl_plates.frequency = 0.015
+	fnl_plates.frequency = 0.015*scale
 	fnl_plates.fractal_octaves = 3
 	fnl_plates.fractal_lacunarity = 7
 	fnl_plates.fractal_gain = 0.15
@@ -36,8 +39,18 @@ func _init(s: int = Time.get_ticks_usec()):
 	
 	
 
+func _ready():
+	if is_test_display:
+		test_display()
+	
+	for x in range(-(width/2.0),width-(width/2.0)):
+		for y in range(-(height/2.0),height-(height/2.0)):
+			discover(Vector2i(x, y))
+	terrain_map = $TerrainMap
+	terrain_map.init_world(tiles, width, height)
 
-func _ready() -> void:
+
+func test_display():
 	var img: Image = Image.create_empty(width, height, false, Image.FORMAT_RGB8)
 	var texture = ImageTexture.create_from_image(img)
 	
