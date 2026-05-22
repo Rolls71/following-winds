@@ -2,7 +2,7 @@ class_name Tile extends Resource
 
 enum Elevations {OCEANWATER, COASTALWATER, COASTLAND, LOWLAND, HIGHLAND}
 enum Gradients {FLAT, GENTLE, STEEP}
-enum Buildings {DOCKS, TOWN HALL, WAREHOUSE}
+enum Buildings {DOCKS, TOWN_HALL, WAREHOUSE}
 
 const OCEAN_COAST_LEVEL: float = 0.62
 const SEA_LEVEL: float = 0.685
@@ -37,7 +37,7 @@ var elevation: float ##
 var gradient: float 
 var climate_zone: float ## Scale from 0 (equatorial) to 1 (polar) based on latitude
 var temperature: float ## Percentage based on elevation, and climate zone
-var building: Building
+
 #var precipitation: float ## Percentage of days with rainfall, ranging from 0-200/365
 
 
