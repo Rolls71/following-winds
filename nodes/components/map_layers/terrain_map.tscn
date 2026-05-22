@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://csmlfb5icvw3c"]
 
 [ext_resource type="TileSet" uid="uid://cidbk0p04pu0y" path="res://resources/tiles.tres" id="1_j3qcx"]
-[ext_resource type="Script" uid="uid://b0qn0lw7hchdf" path="res://nodes/components/terrain_map.gd" id="2_0r8h1"]
+[ext_resource type="Script" uid="uid://b0qn0lw7hchdf" path="res://nodes/components/map_layers/terrain_map.gd" id="2_0r8h1"]
 
 [node name="TerrainMap" type="TileMapLayer" unique_id=109878774]
 tile_set = ExtResource("1_j3qcx")

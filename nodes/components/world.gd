@@ -9,10 +9,12 @@ var height = 400
 var scale:float = 1/1.0
 
 var rng: RandomNumberGenerator
-var tiles: Dictionary[Vector2i, Tile]
 var fnl_terrain: FastNoiseLite
 var fnl_plates: FastNoiseLite
 var terrain_map: TerrainMap
+
+var tiles: Dictionary[Vector2i, Tile]
+var settlements: Array[Settlement] = []
 
 func _init(s: int = Time.get_ticks_usec()):
 	rng = RandomNumberGenerator.new()
@@ -48,7 +50,8 @@ func _ready():
 			discover(Vector2i(x, y))
 	terrain_map = $TerrainMap
 	terrain_map.init_world(tiles, width, height)
-
+	
+	create_starter_settlement()
 
 func test_display():
 	var img: Image = Image.create_empty(width, height, false, Image.FORMAT_RGB8)
@@ -74,7 +77,11 @@ func test_display():
 		for y in range(-(height/2.0),height-(height/2.0)):
 			var e = get_elevation(x, y)
 			@warning_ignore("integer_division")
-			img.set_pixel(x+width/2, y+height/2, Color.WHITE * sobel_sample_gradient(Vector2i(x, y), e))
+			img.set_pixel(
+				x+width/2, 
+				y+height/2, 
+				Color.WHITE * sobel_sample_gradient(Vector2i(x, y), e)
+			)
 	texture = ImageTexture.create_from_image(img)
 	$Container3/Centre/GradientMap.texture = texture
 	
@@ -121,11 +128,14 @@ func get_elevation(x: int, y: int):
 	var bal: float = 0.1*(t+p)
 	return (pow(terrain_height,bal*(1/t)) * pow(plate_height,bal*(1/p)))
 
-func get_climate(latitude: int):
+
+func get_climate(latitude: float):
 	return 1-(abs(latitude)/(height/2.0))
 
 func get_temperature(x: int, y:int):
-	var h = 2*sqrt(1/Tile.LOW_HIGH_LEVEL)*max(get_elevation(x, y) - Tile.LOW_HIGH_LEVEL,0)
+	var h = 2*sqrt(1/Tile.LOW_HIGH_LEVEL)*max(
+			get_elevation(x, y) - Tile.LOW_HIGH_LEVEL,0
+		)
 	var c = get_climate(y)
 	return max(0, (c*0.8)+0.2-h)
 	
@@ -170,6 +180,27 @@ func sobel_sample_gradient(pos: Vector2i, elevation):
 	for x: int in [-1,0,1]:
 		for y: int in [-1,0,1]:
 			elevations.append(get_elevation(pos.x+x, pos.y+y))
-	var zx_slope = ((elevations[2]+2*elevations[5]+elevations[8])-(elevations[0]+2*elevations[5]+elevations[6]))/8*e
-	var zy_slope = ((elevations[6]+2*elevations[7]+elevations[8])-(elevations[0]+2*elevations[1]+elevations[2]))/8*e
+	var zx_slope = (
+			 (elevations[2]+2*elevations[5]+elevations[8])
+			-(elevations[0]+2*elevations[5]+elevations[6])
+		)/8*e
+	var zy_slope = (
+			 (elevations[6]+2*elevations[7]+elevations[8])
+			-(elevations[0]+2*elevations[1]+elevations[2])
+		)/8*e
 	return sqrt(pow(zx_slope,2) + pow(zy_slope,2))
+
+func create_settlement(pos: Vector2i, n: String):
+	var s = Settlement.new(len(settlements), n, tiles[pos])
+	settlements.append(s)
+	tiles[pos].build(Tile.Buildings.TOWN_HALL, s)
+	$ObjectMap.set_cell(pos, 0, Vector2i(1,1))
+	$PanningCamera.position = $ObjectMap.map_to_local(pos)
+
+func create_starter_settlement():
+	for x in range(width/2.0):
+		for y in range(height/2.0):
+			var tile = tiles[Vector2i(x,y)]
+			if tile.get_terrain() == Tile.Elevations.LOWLAND:
+				create_settlement(tile.position, "Tutoriland")
+				return

@@ -1,4 +1,4 @@
-class_name ObjectMap extends TileMapLayer
+class_name SelectMap extends TileMapLayer
 
 var is_cell_selected = false
 var selected_cell: Vector2i

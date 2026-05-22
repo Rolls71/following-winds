@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cxyjlk2qf30lb"]
+
+[ext_resource type="TileSet" uid="uid://cidbk0p04pu0y" path="res://resources/tiles.tres" id="1_g1i88"]
+[ext_resource type="Script" uid="uid://d0lfup1ki03lx" path="res://nodes/components/map_layers/select_map.gd" id="2_p0k7h"]
+
+[node name="SelectMap" type="TileMapLayer" unique_id=1726945220]
+tile_set = ExtResource("1_g1i88")
+script = ExtResource("2_p0k7h")

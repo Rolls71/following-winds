@@ -37,11 +37,13 @@ var elevation: float ##
 var gradient: float 
 var climate_zone: float ## Scale from 0 (equatorial) to 1 (polar) based on latitude
 var temperature: float ## Percentage based on elevation, and climate zone
-
+var bounds: Vector2i
+var owner: Settlement
+var building: Buildings
 #var precipitation: float ## Percentage of days with rainfall, ranging from 0-200/365
 
 
-func _init(x: int, y: int, e: float, g: float, _bounds: Vector2i, c: float, t: float):
+func _init(x: int, y: int, e: float, g: float, b: Vector2i, c: float, t: float):
 	position = Vector2i(x, y)
 	latitude = y
 	longitude = x
@@ -49,4 +51,12 @@ func _init(x: int, y: int, e: float, g: float, _bounds: Vector2i, c: float, t: f
 	gradient = g
 	climate_zone = c
 	temperature = t
+	bounds = b
+	
+func get_terrain():
+	return classify_elevation(elevation)
+
+func build(b: Buildings, s: Settlement):
+	building = b
+	owner = s
 	

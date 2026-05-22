@@ -15,7 +15,7 @@ func init_world(t: Dictionary[Vector2i, Tile], w: int, h):
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if Input.is_action_just_released("select"):
-			$"../ObjectMap".select(local_to_map(get_local_mouse_position()))
+			$"../SelectMap".select(local_to_map(get_local_mouse_position()))
 			print(local_to_map(get_local_mouse_position()))
 		elif Input.is_action_just_released("deselect"):
-			$"../ObjectMap".deselect()
+			$"../SelectMap".deselect()

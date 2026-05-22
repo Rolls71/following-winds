@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dgh5bl2p8dpbh" path="res://nodes/components/world.gd" id="1_vitk7"]
 [ext_resource type="PackedScene" uid="uid://csmlfb5icvw3c" path="res://nodes/components/map_layers/terrain_map.tscn" id="2_vitk7"]
-[ext_resource type="PackedScene" uid="uid://cxyjlk2qf30lb" path="res://nodes/components/map_layers/select_map.tscn" id="4_62n0r"]
 [ext_resource type="PackedScene" uid="uid://bcmn4e1q3cam7" path="res://nodes/components/panning_camera.tscn" id="4_kvqrt"]
 [ext_resource type="PackedScene" uid="uid://b50rrih2pk7u0" path="res://nodes/components/map_layers/object_map.tscn" id="4_qbf43"]
 
@@ -12,7 +11,5 @@ script = ExtResource("1_vitk7")
 [node name="TerrainMap" parent="." unique_id=109878774 instance=ExtResource("2_vitk7")]
 
 [node name="ObjectMap" parent="." unique_id=759859316 instance=ExtResource("4_qbf43")]
-
-[node name="SelectMap" parent="." unique_id=1726945220 instance=ExtResource("4_62n0r")]
 
 [node name="PanningCamera" parent="." unique_id=1136132194 instance=ExtResource("4_kvqrt")]
