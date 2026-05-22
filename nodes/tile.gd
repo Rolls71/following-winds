@@ -3,14 +3,20 @@ class_name Tile extends Resource
 enum Elevations {OCEANWATER, COASTALWATER, COASTLAND, LOWLAND, HIGHLAND}
 enum Gradients {FLAT, GENTLE, STEEP}
 
+const OCEAN_COAST_LEVEL: float = 0.4
+const SEA_LEVEL: float = 0.625
+const COAST_LOW_LEVEL: float = 0.65
+const LOW_HIGH_LEVEL: float = 0.75
+
+
 static func classify_elevation(e):
-	if e < 0.55:
+	if e < OCEAN_COAST_LEVEL:
 		return Elevations.OCEANWATER
-	elif e < 0.6:
+	elif e < SEA_LEVEL:
 		return Elevations.COASTALWATER
-	elif e < 0.65:
+	elif e < COAST_LOW_LEVEL:
 		return Elevations.COASTLAND
-	elif e < 0.8:
+	elif e < LOW_HIGH_LEVEL:
 		return Elevations.LOWLAND
 	else:
 		return Elevations.HIGHLAND
@@ -39,7 +45,4 @@ func _init(x: int, y: int, e: float, g: float, bounds: Vector2i):
 	longitude = x
 	elevation = e
 	gradient = g
-	climate_zone = (y%bounds.y)/float(bounds.y)
-	temperature = (2-climate_zone-elevation)/2
-	
 	
