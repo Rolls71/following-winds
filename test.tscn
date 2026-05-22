@@ -25,3 +25,7 @@ texture = ExtResource("2_8uh7m")
 [node name="ColourHeightMap" type="Sprite2D" parent="." unique_id=406793216]
 position = Vector2(150, 450)
 texture = ExtResource("2_8uh7m")
+
+[node name="ClimateMap" type="Sprite2D" parent="." unique_id=792311064]
+position = Vector2(750, 150)
+texture = ExtResource("2_8uh7m")
