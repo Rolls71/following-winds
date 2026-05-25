@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://bvclvkjo7tm3a" path="res://nodes/components/panning_camera.gd" id="1_8hm8u"]
 
-[node name="PanningCamera2D" type="Camera2D" unique_id=1136132194]
+[node name="PanningCamera" type="Camera2D" unique_id=1136132194]
 script = ExtResource("1_8hm8u")

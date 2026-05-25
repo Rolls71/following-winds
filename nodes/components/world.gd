@@ -2,6 +2,9 @@ class_name World extends Node
 
 @export var is_test_display = false
 
+@export var main_cam: Camera2D
+@export var corner_cam: Camera2D
+
 var sample_distance: float = 2
 var gradient_multiplier: float = 40/sample_distance ## Derived from 1/gradient_max
 var width = 400
@@ -15,6 +18,8 @@ var terrain_map: TerrainMap
 
 var tiles: Dictionary[Vector2i, Tile]
 var settlements: Array[Settlement] = []
+
+
 
 func _init(s: int = Time.get_ticks_usec()):
 	rng = RandomNumberGenerator.new()
@@ -195,7 +200,7 @@ func create_settlement(pos: Vector2i, n: String):
 	settlements.append(s)
 	tiles[pos].build(Tile.Buildings.TOWN_HALL, s)
 	$ObjectMap.set_cell(pos, 0, Vector2i(1,1))
-	$PanningCamera.position = $ObjectMap.map_to_local(pos)
+	main_cam.position = $ObjectMap.map_to_local(pos)
 
 func create_starter_settlement():
 	for x in range(width/2.0):

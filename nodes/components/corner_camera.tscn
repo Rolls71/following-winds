@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bu8ed0gkv3qvh"]
+
+[ext_resource type="Script" uid="uid://8q6jyjp25m5g" path="res://nodes/components/corner_camera.gd" id="1_vgpx5"]
+
+[node name="CornerCamera" type="Camera2D" unique_id=1843907798 node_paths=PackedStringArray("main_cam")]
+zoom = Vector2(0.1, 0.1)
+script = ExtResource("1_vgpx5")
+main_cam = NodePath("")

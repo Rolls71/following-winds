@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://g5x55dxx8uhm"]
+
+[ext_resource type="PackedScene" uid="uid://3otqutvxcm3p" path="res://nodes/components/world.tscn" id="1_8fjy6"]
+[ext_resource type="PackedScene" uid="uid://bcmn4e1q3cam7" path="res://nodes/components/panning_camera.tscn" id="2_hwvd4"]
+[ext_resource type="PackedScene" uid="uid://bu8ed0gkv3qvh" path="res://nodes/components/corner_camera.tscn" id="3_8fjy6"]
+
+[sub_resource type="GDScript" id="GDScript_s8qej"]
+script/source = "extends SubViewport
+
+func _ready() -> void:
+	world_2d = get_tree().root.world_2d
+"
+
+[node name="GameView" type="Control" unique_id=769951629]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="World" parent="." unique_id=295796750 node_paths=PackedStringArray("main_cam", "corner_cam") instance=ExtResource("1_8fjy6")]
+main_cam = NodePath("../PanningCamera")
+corner_cam = NodePath("")
+
+[node name="PanningCamera" parent="." unique_id=1136132194 instance=ExtResource("2_hwvd4")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=106265213]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=2111436065]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer" unique_id=2139516290]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/BoxContainer" unique_id=457512382]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/HBoxContainer/BoxContainer/PanelContainer" unique_id=1836419695]
+custom_minimum_size = Vector2(100, 25)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HBoxContainer/BoxContainer/PanelContainer" unique_id=1849069862]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="GoldText" type="Label" parent="CanvasLayer/HBoxContainer/BoxContainer/PanelContainer/MarginContainer" unique_id=572113833]
+layout_mode = 2
+text = "Gold: 123"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer" unique_id=85089942]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=670144921]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer" unique_id=1477202129]
+layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer" unique_id=923144530]
+layout_mode = 2
+
+[node name="CornerViewport" type="SubViewport" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/SubViewportContainer" unique_id=539042150]
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+script = SubResource("GDScript_s8qej")
+
+[node name="CornerCamera" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/SubViewportContainer/CornerViewport" unique_id=1843907798 node_paths=PackedStringArray("main_cam") instance=ExtResource("3_8fjy6")]
+main_cam = NodePath("../../../../../../../PanningCamera")
