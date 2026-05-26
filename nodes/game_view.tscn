@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://g5x55dxx8uhm"]
 
 [ext_resource type="PackedScene" uid="uid://3otqutvxcm3p" path="res://nodes/components/world.tscn" id="1_8fjy6"]
+[ext_resource type="Script" uid="uid://bwcjb7372vkl0" path="res://nodes/game_view.gd" id="1_hwvd4"]
 [ext_resource type="PackedScene" uid="uid://bcmn4e1q3cam7" path="res://nodes/components/panning_camera.tscn" id="2_hwvd4"]
 [ext_resource type="PackedScene" uid="uid://bu8ed0gkv3qvh" path="res://nodes/components/corner_camera.tscn" id="3_8fjy6"]
 
@@ -11,17 +12,19 @@ func _ready() -> void:
 	world_2d = get_tree().root.world_2d
 "
 
-[node name="GameView" type="Control" unique_id=769951629]
+[node name="GameView" type="Control" unique_id=769951629 node_paths=PackedStringArray("gold_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_hwvd4")
+gold_label = NodePath("CanvasLayer/HBoxContainer/BoxContainer/PanelContainer/MarginContainer/GoldLabel")
 
 [node name="World" parent="." unique_id=295796750 node_paths=PackedStringArray("main_cam", "corner_cam") instance=ExtResource("1_8fjy6")]
 main_cam = NodePath("../PanningCamera")
-corner_cam = NodePath("")
+corner_cam = NodePath("../CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/SubViewportContainer/CornerViewport/CornerCamera")
 
 [node name="PanningCamera" parent="." unique_id=1136132194 instance=ExtResource("2_hwvd4")]
 
@@ -50,7 +53,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
-[node name="GoldText" type="Label" parent="CanvasLayer/HBoxContainer/BoxContainer/PanelContainer/MarginContainer" unique_id=572113833]
+[node name="GoldLabel" type="Label" parent="CanvasLayer/HBoxContainer/BoxContainer/PanelContainer/MarginContainer" unique_id=572113833]
 layout_mode = 2
 text = "Gold: 123"
 

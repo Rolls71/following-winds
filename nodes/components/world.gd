@@ -200,7 +200,6 @@ func create_settlement(pos: Vector2i, n: String):
 	settlements.append(s)
 	tiles[pos].build(Tile.Buildings.TOWN_HALL, s)
 	$ObjectMap.set_cell(pos, 0, Vector2i(1,1))
-	main_cam.position = $ObjectMap.map_to_local(pos)
 
 func create_starter_settlement():
 	for x in range(width/2.0):
@@ -208,4 +207,5 @@ func create_starter_settlement():
 			var tile = tiles[Vector2i(x,y)]
 			if tile.get_terrain() == Tile.Elevations.LOWLAND:
 				create_settlement(tile.position, "Tutoriland")
+				main_cam.position = $ObjectMap.map_to_local(tile.position)
 				return
