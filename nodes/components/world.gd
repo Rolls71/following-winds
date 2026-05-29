@@ -18,6 +18,7 @@ var terrain_map: TerrainMap
 
 var tiles: Dictionary[Vector2i, Tile]
 var settlements: Array[Settlement] = []
+var ships: Array[Ship] = []
 
 
 
@@ -57,6 +58,7 @@ func _ready():
 	terrain_map.init_world(tiles, width, height)
 	
 	create_starter_settlement()
+	ships.append($"../Ship")
 
 func test_display():
 	var img: Image = Image.create_empty(width, height, false, Image.FORMAT_RGB8)

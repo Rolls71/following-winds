@@ -10,6 +10,7 @@ const COAST_LOW_LEVEL: float = 0.7
 const LOW_HIGH_LEVEL: float = 0.77
 
 
+
 static func classify_elevation(e):
 	if e < OCEAN_COAST_LEVEL:
 		return Elevations.OCEANWATER
@@ -59,4 +60,6 @@ func get_terrain():
 func build(b: Buildings, s: Settlement):
 	building = b
 	owner = s
+
+
 	
