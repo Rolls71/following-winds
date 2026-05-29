@@ -6,7 +6,7 @@ var selected_cell: Vector2i
 
 		
 
-func select(event: InputEvent):
+func select(_event: InputEvent):
 	var map_pos = local_to_map(get_local_mouse_position())
 	deselect()
 	selected_cell = map_pos

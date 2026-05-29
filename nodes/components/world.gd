@@ -20,6 +20,29 @@ var tiles: Dictionary[Vector2i, Tile]
 var settlements: Array[Settlement] = []
 var ships: Array[Ship] = []
 
+var north_polar_front_latitude: float = 60/90.0 # 60deg in summer, 30deg in winter
+var north_horse_latitude: float = 30/90.0
+var south_horse_latitude: float = -30/90.0
+var south_polar_front_latitude: float = -60/90.0
+
+#  90  v
+#  60  >
+#  30  ^v
+#  0   <
+# -30  ^v
+# -60  >
+# -90  ^
+func get_wind(latitude) -> Vector2:
+	if latitude > north_horse_latitude:
+		var iy = ((latitude-north_horse_latitude)/(1-north_horse_latitude)-0.5)*2
+		return Vector2(1-abs(iy),-iy).normalized()
+	elif latitude >= south_horse_latitude:
+		var iy = latitude/north_horse_latitude
+		return Vector2(-(1-abs(iy)),-iy).normalized()
+	else:
+		
+		var iy = ((latitude-south_horse_latitude)/(-1-south_horse_latitude)-0.5)*2
+		return Vector2(1-abs(iy),iy).normalized()
 
 
 func _init(s: int = Time.get_ticks_usec()):
@@ -51,13 +74,26 @@ func _ready():
 	if is_test_display:
 		test_display()
 	
+	if not main_cam:
+		main_cam = $"../PanningCamera"
+	if not corner_cam:
+		corner_cam = $"../CanvasLayer/HBoxContainer/SidePanel/PanelContainer/SubViewportContainer/CornerViewport/CornerCamera"
+	
 	for x in range(-(width/2.0),width-(width/2.0)):
 		for y in range(-(height/2.0),height-(height/2.0)):
 			discover(Vector2i(x, y))
 	terrain_map = $TerrainMap
 	terrain_map.init_world(tiles, width, height)
 	
+	
+	for pos in tiles:
+		var tile = tiles[pos]
+		tile.wind = get_wind(tile.latitude)
+	terrain_map.queue_redraw()
+	
 	create_starter_settlement()
+
+
 
 func test_display():
 	var img: Image = Image.create_empty(width, height, false, Image.FORMAT_RGB8)
@@ -135,8 +171,8 @@ func get_elevation(x: int, y: int):
 	return (pow(terrain_height,bal*(1/t)) * pow(plate_height,bal*(1/p)))
 
 
-func get_climate(latitude: float):
-	return 1-(abs(latitude)/(height/2.0))
+func get_climate(y):
+	return 1-(abs(y)/(height/2.0))
 
 func get_temperature(x: int, y:int):
 	var h = 2*sqrt(1/Tile.LOW_HIGH_LEVEL)*max(
@@ -144,7 +180,6 @@ func get_temperature(x: int, y:int):
 		)
 	var c = get_climate(y)
 	return max(0, (c*0.8)+0.2-h)
-	
 
 
 
@@ -163,7 +198,7 @@ func discover(pos: Vector2i):
 		gradient, 
 		Vector2i(width, height),
 		climate,
-		temperature,
+		temperature
 	)
 	tiles[pos] = tile
 	return tile
@@ -210,3 +245,4 @@ func create_starter_settlement():
 				create_settlement(tile.position, "Tutoriland")
 				main_cam.position = $ObjectMap.map_to_local(tile.position)
 				return
+				

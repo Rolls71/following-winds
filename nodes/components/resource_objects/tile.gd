@@ -32,8 +32,8 @@ static func classify_gradient(g):
 		return Gradients.STEEP
 
 var position: Vector2i
-var latitude: int ## y position
-var longitude: int  ## x position
+var latitude: float ## y position
+var longitude: float  ## x position
 var elevation: float ## 
 var gradient: float 
 var climate_zone: float ## Scale from 0 (equatorial) to 1 (polar) based on latitude
@@ -41,21 +41,29 @@ var temperature: float ## Percentage based on elevation, and climate zone
 var bounds: Vector2i
 var owner: Settlement
 var building: Buildings
+var wind: Vector2
+var coriolis: Vector2
 #var precipitation: float ## Percentage of days with rainfall, ranging from 0-200/365
 
 
 func _init(x: int, y: int, e: float, g: float, b: Vector2i, c: float, t: float):
 	position = Vector2i(x, y)
-	latitude = y
-	longitude = x
+	latitude = y / float(b.y/2.0)
+	longitude = x / float(b.x)
 	elevation = e
 	gradient = g
 	climate_zone = c
 	temperature = t
 	bounds = b
 	
+	
+	
+	
+	
 func get_terrain():
 	return classify_elevation(elevation)
+
+
 
 func build(b: Buildings, s: Settlement):
 	building = b
