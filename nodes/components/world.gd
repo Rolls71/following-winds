@@ -58,7 +58,6 @@ func _ready():
 	terrain_map.init_world(tiles, width, height)
 	
 	create_starter_settlement()
-	ships.append($"../Ship")
 
 func test_display():
 	var img: Image = Image.create_empty(width, height, false, Image.FORMAT_RGB8)

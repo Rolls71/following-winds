@@ -16,6 +16,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if Input.is_action_just_released("select"):
 			handle_click(event)
+		if Input.is_action_just_released("deselect"):
+			if selected:
+				selected.deselect()
 
 func handle_click(event: InputEvent):
 	accept_event()
