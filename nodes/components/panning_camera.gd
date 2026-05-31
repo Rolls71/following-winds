@@ -1,8 +1,8 @@
 extends Camera2D
 class_name PanningCamera
 
-const MIN_ZOOM: float = 0.1
-const MAX_ZOOM: float = 1.0
+const MIN_ZOOM: float = 0.05
+const MAX_ZOOM: float = 2.0
 const ZOOM_RATE: float = 8.0
 const ZOOM_INCREMENT: float = 0.1
 

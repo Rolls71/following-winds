@@ -88,7 +88,8 @@ func _ready():
 	
 	for pos in tiles:
 		var tile = tiles[pos]
-		tile.wind = get_wind(tile.latitude)
+		#tile.wind = get_wind(tile.latitude)
+		tile.wind = sobel_sample_dir(tile.position)
 	terrain_map.queue_redraw()
 	
 	create_starter_settlement()
@@ -230,6 +231,24 @@ func sobel_sample_gradient(pos: Vector2i, elevation):
 			-(elevations[0]+2*elevations[1]+elevations[2])
 		)/8*e
 	return sqrt(pow(zx_slope,2) + pow(zy_slope,2))
+
+func sobel_sample_dir(pos: Vector2i):
+	var neighbours: Array[Tile] = []
+	for x: int in [0,-1,1]:
+		for y: int in [0,-1,1]:
+			var p = Vector2i(pos.x + x, pos.y+y)
+			if not tiles.has(p):
+				continue
+			neighbours.append(tiles[p])
+	
+	var highest = 0
+	var lowest = 0
+	for i in len(neighbours):
+		if neighbours[i].elevation > neighbours[highest].elevation:
+			highest = i
+		if neighbours[i].elevation < neighbours[lowest].elevation:
+			lowest = i
+	return Vector2(neighbours[lowest].position - neighbours[highest].position)
 
 func create_settlement(pos: Vector2i, n: String):
 	var s = Settlement.new(len(settlements), n, tiles[pos])

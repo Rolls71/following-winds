@@ -28,6 +28,7 @@ main_cam = NodePath("../PanningCamera")
 corner_cam = NodePath("../CanvasLayer/HBoxContainer/SidePanel/PanelContainer/SubViewportContainer/CornerViewport/CornerCamera")
 
 [node name="PanningCamera" parent="." unique_id=1136132194 instance=ExtResource("2_hwvd4")]
+zoom = Vector2(4, 4)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=106265213]
 
