@@ -9,6 +9,9 @@ const ZOOM_INCREMENT: float = 0.1
 var _target_zoom: float = 1.0
 
 
+func _process(_delta: float):
+	if $"..".selected is Ship:
+		position = $"..".selected.position
 
 func _physics_process(delta: float) -> void:
 	zoom = lerp(zoom, _target_zoom * Vector2.ONE, ZOOM_RATE * delta)

@@ -9,6 +9,7 @@
 script = ExtResource("1_mr57h")
 
 [node name="Hull" type="Sprite2D" parent="." unique_id=1456824431]
+rotation = 1.5707964
 texture = ExtResource("1_ixn8p")
 
 [node name="Selected" type="Sprite2D" parent="Hull" unique_id=1909316461]

@@ -1,6 +1,6 @@
 class_name TerrainMap extends TileMapLayer
 
-@export var is_draw_wind = true
+@export var is_draw_wind = false
 
 var tiles: Dictionary[Vector2i, Tile]
 var width: int

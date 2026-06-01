@@ -92,7 +92,7 @@ func _ready():
 		tile.slope = sobel_sample_slope_dir(tile.position)
 		var er: float = tile.elevation
 		tile.wind = ((
-			tile.coriolis * (1 / (0.5+er))) + (tile.slope * (1 / (1.5-er))
+			tile.coriolis * (1 / (0.5+er))) + (tile.slope * (1 / (-er))
 			)).normalized()
 	terrain_map.queue_redraw()
 	
@@ -237,13 +237,7 @@ func sobel_sample_gradient(pos: Vector2i, elevation):
 	return sqrt(pow(zx_slope,2) + pow(zy_slope,2))
 
 func sobel_sample_slope_dir(pos: Vector2i):
-	var neighbours: Array[Tile] = []
-	for x: int in [0,-1,1]:
-		for y: int in [0,-1,1]:
-			var p = Vector2i(pos.x + x, pos.y+y)
-			if not tiles.has(p):
-				continue
-			neighbours.append(tiles[p])
+	var neighbours = get_neighbourhood(pos)
 	
 	var highest = 0
 	var lowest = 0
@@ -268,4 +262,16 @@ func create_starter_settlement():
 				create_settlement(tile.position, "Tutoriland")
 				main_cam.position = $ObjectMap.map_to_local(tile.position)
 				return
-				
+
+func get_neighbourhood(pos: Vector2i) -> Array[Tile]:
+	if not tiles.has(pos):
+		push_error("tile not found")
+		return []
+	var neighbourhood: Array[Tile] = []
+	for x: int in [0,-1,1]:
+		for y: int in [0,-1,1]:
+			var p = Vector2i(pos.x + x, pos.y+y)
+			if not tiles.has(p):
+				continue
+			neighbourhood.append(tiles[p])
+	return neighbourhood

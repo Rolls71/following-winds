@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bcmn4e1q3cam7" path="res://nodes/components/panning_camera.tscn" id="2_hwvd4"]
 [ext_resource type="PackedScene" uid="uid://bu8ed0gkv3qvh" path="res://nodes/components/corner_camera.tscn" id="3_8fjy6"]
 [ext_resource type="Script" uid="uid://sguod22ymwde" path="res://nodes/side_panel.gd" id="4_s8qej"]
+[ext_resource type="PackedScene" uid="uid://bb2c2d242trar" path="res://nodes/components/ship.tscn" id="6_s8qej"]
 
 [sub_resource type="GDScript" id="GDScript_s8qej"]
 script/source = "extends SubViewport
@@ -82,3 +83,6 @@ script = SubResource("GDScript_s8qej")
 
 [node name="CornerCamera" parent="CanvasLayer/HBoxContainer/SidePanel/PanelContainer/SubViewportContainer/CornerViewport" unique_id=1843907798 node_paths=PackedStringArray("main_cam") instance=ExtResource("3_8fjy6")]
 main_cam = NodePath("../../../../../../../PanningCamera")
+
+[node name="Ship" parent="." unique_id=582943279 node_paths=PackedStringArray("world") instance=ExtResource("6_s8qej")]
+world = NodePath("../World")
