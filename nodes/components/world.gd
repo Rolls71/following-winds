@@ -32,7 +32,7 @@ var south_polar_front_latitude: float = -60/90.0
 # -30  ^v
 # -60  >
 # -90  ^
-func get_wind(latitude) -> Vector2:
+func get_coriolis(latitude) -> Vector2:
 	if latitude > north_horse_latitude:
 		var iy = ((latitude-north_horse_latitude)/(1-north_horse_latitude)-0.5)*2
 		return Vector2(1-abs(iy),-iy).normalized()
@@ -88,8 +88,12 @@ func _ready():
 	
 	for pos in tiles:
 		var tile = tiles[pos]
-		#tile.wind = get_wind(tile.latitude)
-		tile.wind = sobel_sample_dir(tile.position)
+		tile.coriolis = get_coriolis(tile.latitude)
+		tile.slope = sobel_sample_slope_dir(tile.position)
+		var er: float = tile.elevation
+		tile.wind = ((
+			tile.coriolis * (1 / (0.5+er))) + (tile.slope * (1 / (1.5-er))
+			)).normalized()
 	terrain_map.queue_redraw()
 	
 	create_starter_settlement()
@@ -232,7 +236,7 @@ func sobel_sample_gradient(pos: Vector2i, elevation):
 		)/8*e
 	return sqrt(pow(zx_slope,2) + pow(zy_slope,2))
 
-func sobel_sample_dir(pos: Vector2i):
+func sobel_sample_slope_dir(pos: Vector2i):
 	var neighbours: Array[Tile] = []
 	for x: int in [0,-1,1]:
 		for y: int in [0,-1,1]:
@@ -248,7 +252,7 @@ func sobel_sample_dir(pos: Vector2i):
 			highest = i
 		if neighbours[i].elevation < neighbours[lowest].elevation:
 			lowest = i
-	return Vector2(neighbours[lowest].position - neighbours[highest].position)
+	return Vector2(neighbours[lowest].position - neighbours[highest].position).normalized()
 
 func create_settlement(pos: Vector2i, n: String):
 	var s = Settlement.new(len(settlements), n, tiles[pos])

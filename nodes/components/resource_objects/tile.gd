@@ -42,6 +42,7 @@ var bounds: Vector2i
 var owner: Settlement
 var building: Buildings
 var wind: Vector2
+var slope: Vector2
 var coriolis: Vector2
 #var precipitation: float ## Percentage of days with rainfall, ranging from 0-200/365
 
