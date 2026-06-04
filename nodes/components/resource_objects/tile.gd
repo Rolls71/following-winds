@@ -1,6 +1,7 @@
 class_name Tile extends Resource
 
 enum Elevations {OCEANWATER, COASTALWATER, COASTLAND, LOWLAND, HIGHLAND}
+const TERRAIN_STRINGS = ["Ocean Waters", "Coastal Waters", "Coastlands", "Lowlands", "Highlands"]
 enum Gradients {FLAT, GENTLE, STEEP}
 enum Buildings {DOCKS, TOWN_HALL, WAREHOUSE}
 

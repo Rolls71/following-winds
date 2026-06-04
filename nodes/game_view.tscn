@@ -60,11 +60,10 @@ theme_override_constants/margin_left = 10
 layout_mode = 2
 text = "Gold: 123"
 
-[node name="SidePanel" type="VBoxContainer" parent="CanvasLayer/HBoxContainer" unique_id=85089942 node_paths=PackedStringArray("label")]
+[node name="SidePanel" type="VBoxContainer" parent="CanvasLayer/HBoxContainer" unique_id=85089942]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 script = ExtResource("4_s8qej")
-label = NodePath("PanelContainer/Panel/Label")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/HBoxContainer/SidePanel" unique_id=923144530]
 layout_mode = 2
@@ -80,15 +79,18 @@ main_cam = NodePath("../../../../../../PanningCamera")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/SidePanel" unique_id=670144921]
 layout_mode = 2
-size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="CanvasLayer/HBoxContainer/SidePanel/PanelContainer" unique_id=1477202129]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/SidePanel/PanelContainer/Panel" unique_id=1605982858]
-layout_mode = 0
-offset_right = 40.0
+[node name="Label" type="RichTextLabel" parent="CanvasLayer/HBoxContainer/SidePanel/PanelContainer/Panel" unique_id=1854448188]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 23.0
+bbcode_enabled = true
+scroll_active = false
 
 [node name="Ship" parent="." unique_id=582943279 node_paths=PackedStringArray("world") instance=ExtResource("6_s8qej")]
 world = NodePath("../World")
