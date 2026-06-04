@@ -70,5 +70,4 @@ func build(b: Buildings, s: Settlement):
 	building = b
 	owner = s
 
-
 	
