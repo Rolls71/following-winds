@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bwcjb7372vkl0" path="res://nodes/game_view.gd" id="1_hwvd4"]
 [ext_resource type="PackedScene" uid="uid://bcmn4e1q3cam7" path="res://nodes/components/panning_camera.tscn" id="2_hwvd4"]
 [ext_resource type="PackedScene" uid="uid://bu8ed0gkv3qvh" path="res://nodes/components/corner_camera.tscn" id="3_8fjy6"]
-[ext_resource type="Script" uid="uid://sguod22ymwde" path="res://nodes/side_panel.gd" id="4_s8qej"]
+[ext_resource type="Script" uid="uid://sguod22ymwde" path="res://nodes/components/side_panel.gd" id="4_s8qej"]
 [ext_resource type="PackedScene" uid="uid://bb2c2d242trar" path="res://nodes/components/ship.tscn" id="6_s8qej"]
 
 [sub_resource type="GDScript" id="GDScript_s8qej"]
@@ -89,6 +89,7 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 23.0
+grow_horizontal = 2
 bbcode_enabled = true
 scroll_active = false
 

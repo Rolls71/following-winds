@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bis2u8vfft54j"]
+
+[ext_resource type="Script" uid="uid://b5xgu12wnt2rh" path="res://nodes/sailing_physics.gd" id="1_l455a"]
+[ext_resource type="Script" uid="uid://cku8u1t7twv7f" path="res://nodes/sailing_ship.gd" id="2_u5g7p"]
+[ext_resource type="Texture2D" uid="uid://3vmj8sd6pr7r" path="res://resources/hull.png" id="3_2akh4"]
+[ext_resource type="Texture2D" uid="uid://5q1vcqt2fo0y" path="res://resources/hull_selected.png" id="4_t1fpo"]
+[ext_resource type="Texture2D" uid="uid://kfqhglbbqs0n" path="res://resources/sail.png" id="5_3lsw0"]
+[ext_resource type="Texture2D" uid="uid://eetiufkn4884" path="res://icon.svg" id="6_2akh4"]
+
+[node name="SailingTest" type="Node2D" unique_id=1001830005]
+script = ExtResource("1_l455a")
+
+[node name="Ship" type="Node2D" parent="." unique_id=582943279]
+script = ExtResource("2_u5g7p")
+
+[node name="Hull" type="Sprite2D" parent="Ship" unique_id=1456824431]
+rotation = 1.5707964
+texture = ExtResource("3_2akh4")
+
+[node name="Selected" type="Sprite2D" parent="Ship/Hull" unique_id=1909316461]
+visible = false
+texture = ExtResource("4_t1fpo")
+
+[node name="Sail" type="Sprite2D" parent="Ship/Hull" unique_id=87469723]
+texture = ExtResource("5_3lsw0")
+
+[node name="Area2D" type="Area2D" parent="Ship/Hull" unique_id=524714329]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ship/Hull/Area2D" unique_id=654058008]
+polygon = PackedVector2Array(-3, -197, 85, -52, 82, 185, -75, 172, -95, -63)
+
+[node name="Camera2D" type="Camera2D" parent="Ship" unique_id=1699574315]
+zoom = Vector2(0.26, 0.26)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1643814070]
+texture = ExtResource("6_2akh4")
